@@ -1,5 +1,7 @@
 import Init from "./template/init.js";
 import Component from "./core/Component.js";
+import { $ } from "./utils.js";
+import ProductManage from "./components/ProductManage.js";
 
 class VendingMachine extends Component {
     template() {
@@ -7,8 +9,10 @@ class VendingMachine extends Component {
     }
 
     bindEvent() {
-        // dom 잡기
+        $("#product-add-menu").addEventListener("click", () => {
+            new ProductManage($("#detail-page"));
+        });
     }
 }
 
-new VendingMachine(document.getElementById("app"));
+new VendingMachine($("#app"));
