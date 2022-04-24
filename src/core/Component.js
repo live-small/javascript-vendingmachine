@@ -17,4 +17,8 @@ export default class Component {
     bindEvent() {}
 
     setData() {}
+
+    saveLocalStorage(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
 }
