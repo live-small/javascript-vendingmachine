@@ -12,15 +12,17 @@ const ProductPurchaseView = (products, coinToInsert, coinData) => `
 	<div class="product-to-buy">
 		<h2>구매할 수 있는 상품 현황</h2>
 		<table>
-			<tr>
-				<th>상품명</th>
-				<th>가격</th>
-				<th>수량</th>
-				<th>구매</th>
-			</tr>
-			${products.map(product => {
-                const { name, price, quantity } = product;
-                return `
+			<thead>
+				<tr>
+					<th>상품명</th>
+					<th>가격</th>
+					<th>수량</th>
+					<th>구매</th>
+				</tr>
+			</thead>
+			${products
+                .map(
+                    ({ name, price, quantity }) => `
 				<tr class="product-purchase-item">
 					<td class="product-purchase-name" data-product-name=${name}>${name}</td>
 					<td class="product-purchase-price" data-product-price=${price}>${price}</td>
@@ -29,8 +31,9 @@ const ProductPurchaseView = (products, coinToInsert, coinData) => `
 						<button type="button" class="purchase-button">구매하기</button>
 					</td>
 				</tr>
-				`;
-            })}
+				`
+                )
+                .join("")}
 		</table>
 	</div>
 	<br />

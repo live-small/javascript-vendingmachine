@@ -21,4 +21,8 @@ export default class Component {
     saveLocalStorage(key, value) {
         localStorage.setItem(key, JSON.stringify(value));
     }
+
+    get ProductList() {
+        return JSON.parse(localStorage.getItem("products"));
+    }
 }

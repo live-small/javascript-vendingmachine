@@ -8,10 +8,6 @@ export default class ProductManage extends Component {
         return ProductManageView(this.ProductList);
     }
 
-    get ProductList() {
-        return JSON.parse(localStorage.getItem("products"));
-    }
-
     bindEvent() {
         $("#product-add-button").addEventListener("click", () => {
             const name = $("#product-name-input").value.trim();
