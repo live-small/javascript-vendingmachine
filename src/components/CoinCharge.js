@@ -8,10 +8,6 @@ export default class CoinCharge extends Component {
         return CoinChargeView(this.VendingMachineCoin);
     }
 
-    get VendingMachineCoin() {
-        return JSON.parse(localStorage.getItem("vendingMachineCoin"));
-    }
-
     get TotalCoin() {
         const { numberOfCoin } = this.VendingMachineCoin;
         let totalCoin = 0;

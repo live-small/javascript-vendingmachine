@@ -23,6 +23,19 @@ export default class Component {
     }
 
     get ProductList() {
+        if (!localStorage.getItem("products")) {
+            this.saveLocalStorage("products", []);
+        }
         return JSON.parse(localStorage.getItem("products"));
+    }
+
+    get VendingMachineCoin() {
+        if (!localStorage.getItem("vendingMachineCoin")) {
+            this.saveLocalStorage("vendingMachineCoin", {
+                totalCoin: 0,
+                numberOfCoin: { 500: 0, 100: 0, 50: 0, 10: 0 },
+            });
+        }
+        return JSON.parse(localStorage.getItem("vendingMachineCoin"));
     }
 }

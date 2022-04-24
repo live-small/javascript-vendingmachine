@@ -23,18 +23,6 @@ class VendingMachine extends Component {
             new ProductPurchase(detailPage);
         });
     }
-
-    setData() {
-        if (!localStorage.getItem("products")) {
-            localStorage.setItem("products", JSON.stringify([]));
-        }
-        if (!localStorage.getItem("vendingMachineCoin")) {
-            localStorage.setItem(
-                "vendingMachineCoin",
-                JSON.stringify({ totalCoin: 0, numberOfCoin: { 500: 0, 100: 0, 50: 0, 10: 0 } })
-            );
-        }
-    }
 }
 
 new VendingMachine($("#app"));
