@@ -1,10 +1,10 @@
 /* eslint-disable no-new */
 import Init from "./template/init.js";
 import Component from "./core/Component.js";
-import { $ } from "./utils.js";
 import ProductManage from "./components/ProductManage.js";
 import CoinCharge from "./components/CoinCharge.js";
 import ProductPurchase from "./components/ProductPurchase.js";
+import { $ } from "./utils/utils.js";
 
 class VendingMachine extends Component {
     template() {
