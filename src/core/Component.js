@@ -16,7 +16,5 @@ export default class Component {
 
     bindEvent() {}
 
-    setData() {
-        localStorage.setItem("products", JSON.stringify([]));
-    }
+    setData() {}
 }

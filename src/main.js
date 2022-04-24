@@ -23,6 +23,12 @@ class VendingMachine extends Component {
             new ProductPurchase(detailPage);
         });
     }
+
+    setData() {
+        if (!localStorage.getItem("products")) {
+            localStorage.setItem("products", JSON.stringify([]));
+        }
+    }
 }
 
 new VendingMachine($("#app"));
