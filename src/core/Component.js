@@ -23,14 +23,4 @@ export default class Component {
         this.saveLocalStorage(key, value);
         this.render();
     }
-
-    get VendingMachineCoin() {
-        if (!localStorage.getItem("vendingMachineCoin")) {
-            this.saveLocalStorage("vendingMachineCoin", {
-                totalCoin: 0,
-                numberOfCoin: { 500: 0, 100: 0, 50: 0, 10: 0 },
-            });
-        }
-        return JSON.parse(localStorage.getItem("vendingMachineCoin"));
-    }
 }
