@@ -52,9 +52,21 @@ export default class ProductPurchase extends Component {
         });
         // 반환하기
         $("#coin-return-button").addEventListener("click", () => {
-            // 남은금액 가져와서, 돈 반환(계산, 최소한의 동전!) -> 자판기 동전 업데이트
-            // 반환 처리 <- 자판기 동전
-            // 자판기 동전 업데이트
+            const coinToReturn = this.UserCoin.InsertCoin;
+            const [returnNumberOfCoin, numberOfCoin, insertCoin] =
+                this.VendingMachineCoin.return(coinToReturn);
+            if (this.giveAllReturnCoin(insertCoin)) {
+                this.setState(this.VendingMachineCoin.key, {
+                    ...this.VendingMachineCoin.data,
+                    numberOfCoin,
+                });
+                this.setState(this.VendingMachineCoin.key, {
+                    ...this.VendingMachineCoin.data,
+                    totalCoin: this.VendingMachineCoin.TotalCoin,
+                });
+                this.setState(this.UserCoin.returnCoinKey, returnNumberOfCoin);
+                this.setState(this.UserCoin.insertCoinKey, insertCoin);
+            }
         });
     }
 
@@ -65,6 +77,13 @@ export default class ProductPurchase extends Component {
                     this.UserCoin.InsertCoin - needToCoin
                 )}원 더 투입해주세요`
             );
+        }
+        return true;
+    }
+
+    giveAllReturnCoin(change) {
+        if (change !== 0) {
+            alert(`자판기에 동전이 없습니다. 010-1234-5678로 전화주시면 해결해드리겠습니다.`);
         }
         return true;
     }
