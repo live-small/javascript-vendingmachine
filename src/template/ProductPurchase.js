@@ -47,19 +47,19 @@ const ProductPurchaseView = (products, coinToInsert, coinData) => `
 			</tr>
 			<tr>
 				<td>500원</td>
-				<td class="coin-500-quantity">${coinData[500]}개</td>
+				<td id="coin-500-quantity">${coinData[500]}개</td>
 			</tr>
 			<tr>
 				<td>100원</td>
-				<td class="coin-100-quantity">${coinData[100]}개</td>
+				<td id="coin-100-quantity">${coinData[100]}개</td>
 			</tr>
 			<tr>
 				<td>50원</td>
-				<td class="coin-50-quantity">${coinData[50]}개</td>
+				<td id="coin-50-quantity">${coinData[50]}개</td>
 			</tr>
 			<tr>
 				<td>10원</td>
-				<td class="coin-10-quantity">${coinData[10]}개</td>
+				<td id="coin-10-quantity">${coinData[10]}개</td>
 			</tr>
 		</table>
 	</div>
