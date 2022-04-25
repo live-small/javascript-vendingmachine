@@ -1,8 +1,8 @@
+// react component처럼 useState, useEffect 구현해서 쓸 수 있도록
 export default class Component {
     constructor($app) {
         this.$app = $app;
         this.render();
-        this.setData();
     }
 
     template() {
@@ -16,10 +16,13 @@ export default class Component {
 
     bindEvent() {}
 
-    setData() {}
-
     saveLocalStorage(key, value) {
         localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    setState(key, value) {
+        this.saveLocalStorage(key, value);
+        this.render();
     }
 
     get ProductList() {

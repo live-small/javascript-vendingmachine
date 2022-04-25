@@ -5,12 +5,7 @@ import { isValidCoinInput } from "../utils/validator.js";
 
 export default class ProductPurchase extends Component {
     template() {
-        return ProductPurchaseView(this.ProductList, this.InsertCoin, {
-            500: 0,
-            100: 4,
-            50: 1,
-            10: 0,
-        });
+        return ProductPurchaseView(this.ProductList, this.InsertCoin, this.ReturnCoin);
     }
 
     bindEvent() {
@@ -18,7 +13,7 @@ export default class ProductPurchase extends Component {
         $("#charge-button").addEventListener("click", () => {
             const inputCoin = $("#charge-input").value;
             if (isValidCoinInput(inputCoin)) {
-                this.setInsertCoin(Number(inputCoin));
+                this.setState("insertCoin", Number(inputCoin) + this.InsertCoin);
             }
         });
         // 구매하기
@@ -31,7 +26,7 @@ export default class ProductPurchase extends Component {
         });
         // 반환하기
         $("#coin-return-button").addEventListener("click", () => {
-            // 남은금액 가져와서, 돈 반환하기
+            // 남은금액 가져와서, 돈 반환(계산, 최소한의 동전!)
         });
     }
 
@@ -58,12 +53,7 @@ export default class ProductPurchase extends Component {
             };
             productList.splice(productIndex, 1, updateProduct);
         }
-        this.setProduct(productList);
-    }
-
-    setProduct(updateProductList) {
-        this.saveLocalStorage("products", updateProductList);
-        this.render();
+        this.setState("products", productList);
     }
 
     get InsertCoin() {
@@ -73,8 +63,10 @@ export default class ProductPurchase extends Component {
         return JSON.parse(localStorage.getItem("insertCoin"));
     }
 
-    setInsertCoin(coin) {
-        this.saveLocalStorage("insertCoin", this.InsertCoin + coin);
-        this.render();
+    get ReturnCoin() {
+        if (!localStorage.getItem("returnCoin")) {
+            this.saveLocalStorage("returnCoin", { 500: 0, 100: 0, 50: 0, 10: 0 });
+        }
+        return JSON.parse(localStorage.getItem("returnCoin"));
     }
 }

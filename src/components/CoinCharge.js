@@ -4,6 +4,13 @@ import { $ } from "../utils/utils.js";
 import { isValidCoinInput } from "../utils/validator.js";
 
 export default class CoinCharge extends Component {
+    // 동전
+    // 자판기 동전 충전(<-투입하기)
+    // 자판기 총 보유동전 계산 (<- 자판기 동전개수)
+    // 자판기 동전개수 누적계산
+    // 자판기 동전개수 수정(<-반환하기에서 반환된 동전개수 빼줘야함)
+    // 사용자 동전 투입
+    // 반환된 동전 가져오기
     template() {
         return CoinChargeView(this.VendingMachineCoin);
     }
@@ -22,8 +29,15 @@ export default class CoinCharge extends Component {
             const coinToInput = $("#vending-machine-charge-input").value;
             if (isValidCoinInput(coinToInput)) {
                 const newCoins = this.generateCoinRandomly(coinToInput);
-                const newNumberOfCoin = this.calculateNumberOfCoin(newCoins);
-                this.setCoin(newNumberOfCoin);
+                const numberOfCoin = this.calculateNumberOfCoin(newCoins);
+                this.setState("vendingMachineCoin", {
+                    ...this.VendingMachineCoin,
+                    numberOfCoin,
+                });
+                this.setState("vendingMachineCoin", {
+                    ...this.VendingMachineCoin,
+                    totalCoin: this.TotalCoin,
+                });
             }
         });
     }
@@ -53,14 +67,5 @@ export default class CoinCharge extends Component {
             coinTemplate[coin] = coinUnit;
         }
         return coinTemplate;
-    }
-
-    setCoin(numberOfCoin) {
-        this.saveLocalStorage("vendingMachineCoin", { ...this.VendingMachineCoin, numberOfCoin });
-        this.saveLocalStorage("vendingMachineCoin", {
-            ...this.VendingMachineCoin,
-            totalCoin: this.TotalCoin,
-        });
-        this.render();
     }
 }

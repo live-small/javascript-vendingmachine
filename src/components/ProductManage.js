@@ -15,13 +15,8 @@ export default class ProductManage extends Component {
             const quantity = $("#product-quantity-input").value.trim();
             const newProduct = { name, price, quantity };
             if (isValidProduct(newProduct)) {
-                this.setProductList(newProduct);
+                this.setState("products", [...this.ProductList, newProduct]);
             }
         });
-    }
-
-    setProductList(newProduct) {
-        localStorage.setItem("products", JSON.stringify([...this.ProductList, newProduct]));
-        this.render();
     }
 }
