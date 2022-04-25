@@ -37,7 +37,7 @@ const ProductPurchaseView = (products, coinToInsert, coinData) => `
 		</table>
 	</div>
 	<br />
-	<div class="charge-coin">
+	<div class="return-coin">
 		<h2>잔돈</h2>
 		<button type="button" id="coin-return-button">반환하기</button>
 		<table>

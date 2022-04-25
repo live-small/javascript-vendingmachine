@@ -18,14 +18,17 @@ const ProductManageView = products => `
 			</thead>
 			${products
                 .map(
-                    product => `
-				 <tr class="product-manage-item">
-					<td class="product-manage-name">${product.name}</td>
-					<td class="product-manage-price">${product.price}</td>
-					<td class="product-manage-quantity">${product.quantity}</td> 
-				</tr> `
+                    ({ name, price, quantity }) =>
+                        `
+					<tr class="product-manage-item">
+						<td class="product-manage-name">${name}</td>
+						<td class="product-manage-price">${price}</td>
+						<td class="product-manage-quantity">${quantity}</td>
+					</tr>
+				 `
                 )
                 .join("")}
+			
 		</table>
 	</div>
 	`;
