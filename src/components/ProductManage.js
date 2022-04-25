@@ -4,8 +4,14 @@ import { $ } from "../utils/utils.js";
 import { isValidProduct } from "../utils/validator.js";
 
 export default class ProductManage extends Component {
+    constructor($app, Product) {
+        super($app);
+        this.Product = Product;
+        this.render();
+    }
+
     template() {
-        return ProductManageView(this.ProductList);
+        return ProductManageView(this.Product.list);
     }
 
     bindEvent() {
@@ -15,7 +21,8 @@ export default class ProductManage extends Component {
             const quantity = $("#product-quantity-input").value.trim();
             const newProduct = { name, price, quantity };
             if (isValidProduct(newProduct)) {
-                this.setState("products", [...this.ProductList, newProduct]);
+                const updateProductList = this.Product.add(newProduct);
+                this.setState("products", updateProductList);
             }
         });
     }

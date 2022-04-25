@@ -4,8 +4,14 @@ import { $ } from "../utils/utils.js";
 import { isValidCoinInput } from "../utils/validator.js";
 
 export default class ProductPurchase extends Component {
+    constructor($app, Product) {
+        super($app);
+        this.Product = Product;
+        this.render();
+    }
+
     template() {
-        return ProductPurchaseView(this.ProductList, this.InsertCoin, this.ReturnCoin);
+        return ProductPurchaseView(this.Product.list, this.InsertCoin, this.ReturnCoin);
     }
 
     bindEvent() {
@@ -43,7 +49,7 @@ export default class ProductPurchase extends Component {
         // FIXME: 어떻게 하면, 불변성을 지킬 수 있을까? -> 상품명을 key로 가지는 객체 형태? -> 구조분해 할당에서 안됨.
         const { productIndex } = $targetProduct.dataset;
         const { productQuantity } = $quantity.dataset;
-        const productList = this.ProductList;
+        const productList = this.Product.list;
         if (productList[productIndex].quantity - 1 === 0) {
             productList.splice(productIndex, 1);
         } else {
