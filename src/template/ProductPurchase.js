@@ -11,7 +11,7 @@ const ProductPurchaseView = (products, coinToInsert, coinData) => `
 	<br />
 	<div class="product-to-buy">
 		<h2>구매할 수 있는 상품 현황</h2>
-		<table>
+		<table id="product-list">
 			<thead>
 				<tr>
 					<th>상품명</th>
@@ -22,8 +22,8 @@ const ProductPurchaseView = (products, coinToInsert, coinData) => `
 			</thead>
 			${products
                 .map(
-                    ({ name, price, quantity }) => `
-				<tr class="product-purchase-item">
+                    ({ name, price, quantity }, key) => `
+				<tr class="product-purchase-item" data-product-index=${key}>
 					<td class="product-purchase-name" data-product-name=${name}>${name}</td>
 					<td class="product-purchase-price" data-product-price=${price}>${price}</td>
 					<td class="product-purchase-quantity" data-product-quantity=${quantity}>${quantity}</td>
