@@ -18,12 +18,8 @@ export default class CoinCharge extends Component {
         $("#vending-machine-charge-button").addEventListener("click", () => {
             const coinToInput = $("#vending-machine-charge-input").value;
             if (isValidCoinInput(coinToInput)) {
-                const newCoins = this.VendingMachineCoin.generateCoinRandomly(coinToInput);
-                const numberOfCoin = this.VendingMachineCoin.accumulateNumberOfCoin(newCoins);
-                this.setState(this.VendingMachineCoin.key, {
-                    ...this.VendingMachineCoin.data,
-                    numberOfCoin,
-                });
+                const updateCoinData = this.VendingMachineCoin.insert(coinToInput);
+                this.setState(this.VendingMachineCoin.key, updateCoinData);
                 this.setState(this.VendingMachineCoin.key, {
                     ...this.VendingMachineCoin.data,
                     totalCoin: this.VendingMachineCoin.TotalCoin,

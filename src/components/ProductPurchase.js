@@ -4,14 +4,20 @@ import { $ } from "../utils/utils.js";
 import { isValidCoinInput } from "../utils/validator.js";
 
 export default class ProductPurchase extends Component {
-    constructor($app, Product) {
+    constructor($app, Product, UserCoin, VendingMachineCoin) {
         super($app);
         this.Product = Product;
+        this.UserCoin = UserCoin;
+        this.VendingMachineCoin = VendingMachineCoin;
         this.render();
     }
 
     template() {
-        return ProductPurchaseView(this.Product.list, this.InsertCoin, this.ReturnCoin);
+        return ProductPurchaseView(
+            this.Product.list,
+            this.UserCoin.InsertCoin,
+            this.UserCoin.ReturnCoin
+        );
     }
 
     bindEvent() {
@@ -19,60 +25,47 @@ export default class ProductPurchase extends Component {
         $("#charge-button").addEventListener("click", () => {
             const inputCoin = $("#charge-input").value;
             if (isValidCoinInput(inputCoin)) {
-                this.setState("insertCoin", Number(inputCoin) + this.InsertCoin);
+                this.setState(
+                    this.UserCoin.insertCoinKey,
+                    Number(inputCoin) + this.UserCoin.InsertCoin
+                );
             }
         });
-        // 구매하기
         $("#product-list").addEventListener("click", event => {
             const $targetProduct = event.target.closest(".product-purchase-item");
             const [, $price, $quantity] = $targetProduct.children; // 정보가 늘어나면? 위치 보장못함
-            if (this.checkInsertCoin($price.dataset.productPrice)) {
-                this.sellProduct($targetProduct, $quantity);
+            const { productPrice } = $price.dataset;
+            if (this.checkInsertCoin(productPrice)) {
+                // 투입한 돈 - 상품가격
+                this.setState(this.UserCoin.insertCoinKey, this.UserCoin.InsertCoin - productPrice);
+                // 보유동전 + 상품가격
+                const updateCoinData = this.VendingMachineCoin.insert(productPrice);
+                this.setState(this.VendingMachineCoin.key, updateCoinData);
+                this.setState(this.VendingMachineCoin.key, {
+                    ...this.VendingMachineCoin.data,
+                    totalCoin: this.VendingMachineCoin.TotalCoin,
+                });
+                // 상품재고 수정
+                const updateProductList = this.Product.sell($targetProduct, $quantity);
+                this.setState(this.Product.key, updateProductList);
             }
         });
         // 반환하기
         $("#coin-return-button").addEventListener("click", () => {
-            // 남은금액 가져와서, 돈 반환(계산, 최소한의 동전!)
+            // 남은금액 가져와서, 돈 반환(계산, 최소한의 동전!) -> 자판기 동전 업데이트
+            // 반환 처리 <- 자판기 동전
+            // 자판기 동전 업데이트
         });
     }
 
     checkInsertCoin(needToCoin) {
-        if (this.InsertCoin - needToCoin < 0) {
+        if (this.UserCoin.InsertCoin - needToCoin < 0) {
             return alert(
-                `돈이 부족합니다. ${Math.abs(this.InsertCoin - needToCoin)}원 더 투입해주세요`
+                `돈이 부족합니다. ${Math.abs(
+                    this.UserCoin.InsertCoin - needToCoin
+                )}원 더 투입해주세요`
             );
         }
         return true;
-    }
-
-    sellProduct($targetProduct, $quantity) {
-        // FIXME: 어떻게 하면, 불변성을 지킬 수 있을까? -> 상품명을 key로 가지는 객체 형태? -> 구조분해 할당에서 안됨.
-        const { productIndex } = $targetProduct.dataset;
-        const { productQuantity } = $quantity.dataset;
-        const productList = this.Product.list;
-        if (productList[productIndex].quantity - 1 === 0) {
-            productList.splice(productIndex, 1);
-        } else {
-            const updateProduct = {
-                ...productList[productIndex],
-                quantity: productQuantity - 1,
-            };
-            productList.splice(productIndex, 1, updateProduct);
-        }
-        this.setState("products", productList);
-    }
-
-    get InsertCoin() {
-        if (!localStorage.getItem("insertCoin")) {
-            this.saveLocalStorage("insertCoin", 0);
-        }
-        return JSON.parse(localStorage.getItem("insertCoin"));
-    }
-
-    get ReturnCoin() {
-        if (!localStorage.getItem("returnCoin")) {
-            this.saveLocalStorage("returnCoin", { 500: 0, 100: 0, 50: 0, 10: 0 });
-        }
-        return JSON.parse(localStorage.getItem("returnCoin"));
     }
 }

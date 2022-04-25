@@ -26,6 +26,15 @@ export default class VendingMachineCoin {
         return totalCoin;
     }
 
+    insert(coinToInput) {
+        const newCoins = this.generateCoinRandomly(coinToInput);
+        const numberOfCoin = this.accumulateNumberOfCoin(newCoins);
+        return {
+            ...this.data,
+            numberOfCoin,
+        };
+    }
+
     generateCoinRandomly(coinToInput) {
         const coinTemplate = { ...this.coinTemplate };
         while (coinToInput > 0) {

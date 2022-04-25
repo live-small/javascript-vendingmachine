@@ -7,6 +7,7 @@ import ProductPurchase from "./components/ProductPurchase.js";
 import { $ } from "./utils/utils.js";
 import Product from "./components/Product.js";
 import VendingMachineCoin from "./components/VendingMachineCoin.js";
+import UserCoin from "./components/UserCoin.js";
 
 class VendingMachine extends Component {
     template() {
@@ -17,6 +18,7 @@ class VendingMachine extends Component {
         const detailPage = $("#detail-page");
         const product = new Product();
         const vendingMachineCoin = new VendingMachineCoin();
+        const userCoin = new UserCoin();
 
         $("#product-add-menu").addEventListener("click", () => {
             new ProductManage(detailPage, product);
@@ -25,7 +27,7 @@ class VendingMachine extends Component {
             new CoinCharge(detailPage, vendingMachineCoin);
         });
         $("#product-purchase-menu").addEventListener("click", () => {
-            new ProductPurchase(detailPage, product);
+            new ProductPurchase(detailPage, product, userCoin, vendingMachineCoin);
         });
     }
 }
