@@ -22,7 +22,7 @@ export default class ProductManage extends Component {
             const newProduct = { name, price, quantity };
             if (isValidProduct(newProduct)) {
                 const updateProductList = this.Product.add(newProduct);
-                this.setState("products", updateProductList);
+                this.setState(this.Product.key, updateProductList);
             }
         });
     }
