@@ -19,7 +19,7 @@ export default class CoinCharge extends Component {
             const coinToInput = $("#vending-machine-charge-input").value;
             if (isValidCoinInput(coinToInput)) {
                 const updateCoinData = this.VendingMachineCoin.insert(coinToInput);
-                this.setState(this.VendingMachineCoin.key, updateCoinData);
+                this.saveLocalStorage(this.VendingMachineCoin.key, updateCoinData);
                 this.setState(this.VendingMachineCoin.key, {
                     ...this.VendingMachineCoin.data,
                     totalCoin: this.VendingMachineCoin.TotalCoin,

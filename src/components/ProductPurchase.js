@@ -61,15 +61,15 @@ export default class ProductPurchase extends Component {
             const [returnNumberOfCoin, numberOfCoin, insertCoin] =
                 this.VendingMachineCoin.return(coinToReturn);
             if (this.giveAllReturnCoin(insertCoin)) {
-                this.setState(this.VendingMachineCoin.key, {
+                this.saveLocalStorage(this.VendingMachineCoin.key, {
                     ...this.VendingMachineCoin.data,
                     numberOfCoin,
                 });
-                this.setState(this.VendingMachineCoin.key, {
+                this.saveLocalStorage(this.VendingMachineCoin.key, {
                     ...this.VendingMachineCoin.data,
                     totalCoin: this.VendingMachineCoin.TotalCoin,
                 });
-                this.setState(this.UserCoin.returnCoinKey, returnNumberOfCoin);
+                this.saveLocalStorage(this.UserCoin.returnCoinKey, returnNumberOfCoin);
                 this.setState(this.UserCoin.insertCoinKey, insertCoin);
             }
         });
