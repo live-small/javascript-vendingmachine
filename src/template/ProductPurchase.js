@@ -5,7 +5,7 @@ const ProductPurchaseView = (products, coinToInsert, coinData) => `
 		<button type="button" id="charge-button">투입하기</button>
 		<div>
 			투입한 금액:
-			<span id="charge-amount">${coinToInsert}원</span>
+			<span id="charge-amount">${coinToInsert}</span>
 		</div>
 	</div>
 	<br />

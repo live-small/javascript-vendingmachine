@@ -37,17 +37,22 @@ export default class ProductPurchase extends Component {
             const { productPrice } = $price.dataset;
             if (this.checkInsertCoin(productPrice)) {
                 // 투입한 돈 - 상품가격
-                this.setState(this.UserCoin.insertCoinKey, this.UserCoin.InsertCoin - productPrice);
-                // 보유동전 + 상품가격
-                const updateCoinData = this.VendingMachineCoin.insert(productPrice);
-                this.setState(this.VendingMachineCoin.key, updateCoinData);
-                this.setState(this.VendingMachineCoin.key, {
-                    ...this.VendingMachineCoin.data,
-                    totalCoin: this.VendingMachineCoin.TotalCoin,
-                });
+                this.saveLocalStorage(
+                    this.UserCoin.insertCoinKey,
+                    this.UserCoin.InsertCoin - productPrice
+                );
                 // 상품재고 수정
                 const updateProductList = this.Product.sell($targetProduct, $quantity);
                 this.setState(this.Product.key, updateProductList);
+
+                // TODO: 보유동전 + 상품가격 <- 여기서 문제생김.
+                // 왜? 테스트코드를 보면, 상품을 팔고 남은 돈은 자판기 보유동전과 별개로 관리함.
+                // const updateCoinData = this.VendingMachineCoin.insert(productPrice);
+                // this.saveLocalStorage(this.VendingMachineCoin.key, updateCoinData);
+                // this.saveLocalStorage(this.VendingMachineCoin.key, {
+                //     ...this.VendingMachineCoin.data,
+                //     totalCoin: this.VendingMachineCoin.TotalCoin,
+                // });
             }
         });
         // 반환하기
@@ -83,7 +88,9 @@ export default class ProductPurchase extends Component {
 
     giveAllReturnCoin(change) {
         if (change !== 0) {
-            alert(`자판기에 동전이 없습니다. 010-1234-5678로 전화주시면 해결해드리겠습니다.`);
+            return alert(
+                `자판기에 동전이 없습니다. 010-1234-5678로 전화주시면 해결해드리겠습니다.`
+            );
         }
         return true;
     }
