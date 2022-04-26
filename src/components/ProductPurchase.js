@@ -1,5 +1,6 @@
 import Component from "../core/Component.js";
 import ProductPurchaseView from "../template/ProductPurchase.js";
+import { setLocalStroage } from "../utils/localStroage.js";
 import { $ } from "../utils/utils.js";
 import { isValidCoinInput } from "../utils/validator.js";
 
@@ -37,22 +38,13 @@ export default class ProductPurchase extends Component {
             const { productPrice } = $price.dataset;
             if (this.checkInsertCoin(productPrice)) {
                 // 투입한 돈 - 상품가격
-                this.saveLocalStorage(
+                setLocalStroage(
                     this.UserCoin.insertCoinKey,
                     this.UserCoin.InsertCoin - productPrice
                 );
                 // 상품재고 수정
                 const updateProductList = this.Product.sell($targetProduct, $quantity);
                 this.setState(this.Product.key, updateProductList);
-
-                // TODO: 보유동전 + 상품가격 <- 여기서 문제생김.
-                // 왜? 테스트코드를 보면, 상품을 팔고 남은 돈은 자판기 보유동전과 별개로 관리함.
-                // const updateCoinData = this.VendingMachineCoin.insert(productPrice);
-                // this.saveLocalStorage(this.VendingMachineCoin.key, updateCoinData);
-                // this.saveLocalStorage(this.VendingMachineCoin.key, {
-                //     ...this.VendingMachineCoin.data,
-                //     totalCoin: this.VendingMachineCoin.TotalCoin,
-                // });
             }
         });
         // 반환하기
@@ -61,15 +53,15 @@ export default class ProductPurchase extends Component {
             const [returnNumberOfCoin, numberOfCoin, insertCoin] =
                 this.VendingMachineCoin.return(coinToReturn);
             if (this.giveAllReturnCoin(insertCoin)) {
-                this.saveLocalStorage(this.VendingMachineCoin.key, {
+                setLocalStroage(this.VendingMachineCoin.key, {
                     ...this.VendingMachineCoin.data,
                     numberOfCoin,
                 });
-                this.saveLocalStorage(this.VendingMachineCoin.key, {
+                setLocalStroage(this.VendingMachineCoin.key, {
                     ...this.VendingMachineCoin.data,
                     totalCoin: this.VendingMachineCoin.TotalCoin,
                 });
-                this.saveLocalStorage(this.UserCoin.returnCoinKey, returnNumberOfCoin);
+                setLocalStroage(this.UserCoin.returnCoinKey, returnNumberOfCoin);
                 this.setState(this.UserCoin.insertCoinKey, insertCoin);
             }
         });

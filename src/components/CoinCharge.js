@@ -1,5 +1,6 @@
 import Component from "../core/Component.js";
 import CoinChargeView from "../template/CoinCharge.js";
+import { setLocalStroage } from "../utils/localStroage.js";
 import { $ } from "../utils/utils.js";
 import { isValidCoinInput } from "../utils/validator.js";
 
@@ -19,7 +20,7 @@ export default class CoinCharge extends Component {
             const coinToInput = $("#vending-machine-charge-input").value;
             if (isValidCoinInput(coinToInput)) {
                 const updateCoinData = this.VendingMachineCoin.insert(coinToInput);
-                this.saveLocalStorage(this.VendingMachineCoin.key, updateCoinData);
+                setLocalStroage(this.VendingMachineCoin.key, updateCoinData);
                 this.setState(this.VendingMachineCoin.key, {
                     ...this.VendingMachineCoin.data,
                     totalCoin: this.VendingMachineCoin.TotalCoin,

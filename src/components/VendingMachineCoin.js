@@ -1,20 +1,17 @@
+import { initLocalStorage, readFromLocalStorage } from "../utils/localStroage.js";
+
 export default class VendingMachineCoin {
     constructor() {
         this.key = "vendingMachineCoin";
         this.coinTemplate = { 500: 0, 100: 0, 50: 0, 10: 0 };
+        initLocalStorage(this.key, {
+            totalCoin: 0,
+            numberOfCoin: { ...this.coinTemplate },
+        });
     }
 
     get data() {
-        if (!localStorage.getItem(this.key)) {
-            localStorage.setItem(
-                this.key,
-                JSON.stringify({
-                    totalCoin: 0,
-                    numberOfCoin: { ...this.coinTemplate },
-                })
-            );
-        }
-        return JSON.parse(localStorage.getItem(this.key));
+        return readFromLocalStorage(this.key);
     }
 
     get TotalCoin() {
@@ -39,14 +36,10 @@ export default class VendingMachineCoin {
         const returnNumberOfCoin = { ...this.coinTemplate };
         const haveNumberOfCoin = { ...this.data.numberOfCoin };
         const coinKinds = Object.keys(haveNumberOfCoin).reverse();
-        // coinKinds로 4번에 끝낸다.
         for (const unit of coinKinds) {
-            // TODO: 왜 10 50 100 500으로 저장될까? 로컬스토리지 쓰면, 자동 정렬되나?
             if (!coinToReturn) break;
             const needCoinCount = Math.floor(coinToReturn / unit);
             const count = Math.min(needCoinCount, haveNumberOfCoin[unit]);
-            // 필요한 개수 5, 가진 개수 3 -> 3
-            // 필요한 개수 1, 가진 개수 3 -> 1 : 즉, 최소개수만 이용하면된다.
             coinToReturn -= unit * count;
             returnNumberOfCoin[unit] += count;
             haveNumberOfCoin[unit] -= count;

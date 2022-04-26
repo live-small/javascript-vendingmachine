@@ -1,14 +1,14 @@
+import { initLocalStorage, readFromLocalStorage } from "../utils/localStroage.js";
+
 export default class Product {
     constructor() {
         this.key = "products";
+        initLocalStorage(this.key, []);
     }
 
     // read
     get list() {
-        if (!localStorage.getItem(this.key)) {
-            localStorage.setItem(this.key, JSON.stringify([]));
-        }
-        return JSON.parse(localStorage.getItem(this.key));
+        return readFromLocalStorage(this.key);
     }
 
     // add

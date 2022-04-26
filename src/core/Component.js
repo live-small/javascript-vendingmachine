@@ -1,4 +1,5 @@
-// react component처럼 useState, useEffect 등을 구현해서 쓸 수 있도록
+import { setLocalStroage } from "../utils/localStroage.js";
+
 export default class Component {
     constructor($app) {
         this.$app = $app;
@@ -15,12 +16,8 @@ export default class Component {
 
     bindEvent() {}
 
-    saveLocalStorage(key, value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    }
-
     setState(key, value) {
-        this.saveLocalStorage(key, value);
+        setLocalStroage(key, value);
         this.render();
     }
 }
