@@ -22,7 +22,6 @@ export default class ProductPurchase extends Component {
     }
 
     bindEvent() {
-        // 투입하기
         $("#charge-button").addEventListener("click", () => {
             const inputCoin = $("#charge-input").value;
             if (isValidCoinInput(inputCoin)) {
@@ -34,20 +33,17 @@ export default class ProductPurchase extends Component {
         });
         $("#product-list").addEventListener("click", event => {
             const $targetProduct = event.target.closest(".product-purchase-item");
-            const [, $price, $quantity] = $targetProduct.children; // 정보가 늘어나면? 위치 보장못함
+            const [, $price, $quantity] = $targetProduct.children;
             const { productPrice } = $price.dataset;
             if (this.checkInsertCoin(productPrice)) {
-                // 투입한 돈 - 상품가격
                 setLocalStroage(
                     this.UserCoin.insertCoinKey,
                     this.UserCoin.InsertCoin - productPrice
                 );
-                // 상품재고 수정
                 const updateProductList = this.Product.sell($targetProduct, $quantity);
                 this.setState(this.Product.key, updateProductList);
             }
         });
-        // 반환하기
         $("#coin-return-button").addEventListener("click", () => {
             const coinToReturn = this.UserCoin.InsertCoin;
             const [returnNumberOfCoin, numberOfCoin, insertCoin] =

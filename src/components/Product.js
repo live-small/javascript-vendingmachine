@@ -6,17 +6,14 @@ export default class Product {
         initLocalStorage(this.key, []);
     }
 
-    // read
     get list() {
         return readFromLocalStorage(this.key);
     }
 
-    // add
     add(newProduct) {
         return [...this.list, newProduct];
     }
 
-    // update
     sell($targetProduct, $quantity) {
         const { productIndex } = $targetProduct.dataset;
         const { productQuantity } = $quantity.dataset;
