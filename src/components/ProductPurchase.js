@@ -2,7 +2,7 @@ import Component from "../core/Component.js";
 import ProductPurchaseView from "../template/ProductPurchase.js";
 import { setLocalStroage } from "../utils/localStroage.js";
 import { $ } from "../utils/utils.js";
-import { isValidCoinInput } from "../utils/validator.js";
+import { checkUserCoin, isAllUserCoinReturned, isValidCoinInput } from "../utils/validator.js";
 
 export default class ProductPurchase extends Component {
     constructor($app, Product, UserCoin, VendingMachineCoin) {
@@ -35,7 +35,7 @@ export default class ProductPurchase extends Component {
             const $targetProduct = event.target.closest(".product-purchase-item");
             const [, $price, $quantity] = $targetProduct.children;
             const { productPrice } = $price.dataset;
-            if (this.checkInsertCoin(productPrice)) {
+            if (checkUserCoin(productPrice, this.UserCoin.InsertCoin)) {
                 setLocalStroage(
                     this.UserCoin.insertCoinKey,
                     this.UserCoin.InsertCoin - productPrice
@@ -48,38 +48,17 @@ export default class ProductPurchase extends Component {
             const coinToReturn = this.UserCoin.InsertCoin;
             const [returnNumberOfCoin, numberOfCoin, insertCoin] =
                 this.VendingMachineCoin.return(coinToReturn);
-            if (this.giveAllReturnCoin(insertCoin)) {
-                setLocalStroage(this.VendingMachineCoin.key, {
-                    ...this.VendingMachineCoin.data,
-                    numberOfCoin,
-                });
-                setLocalStroage(this.VendingMachineCoin.key, {
-                    ...this.VendingMachineCoin.data,
-                    totalCoin: this.VendingMachineCoin.TotalCoin,
-                });
-                setLocalStroage(this.UserCoin.returnCoinKey, returnNumberOfCoin);
-                this.setState(this.UserCoin.insertCoinKey, insertCoin);
-            }
+            setLocalStroage(this.VendingMachineCoin.key, {
+                ...this.VendingMachineCoin.data,
+                numberOfCoin,
+            });
+            setLocalStroage(this.VendingMachineCoin.key, {
+                ...this.VendingMachineCoin.data,
+                totalCoin: this.VendingMachineCoin.TotalCoin,
+            });
+            setLocalStroage(this.UserCoin.returnCoinKey, returnNumberOfCoin);
+            this.setState(this.UserCoin.insertCoinKey, insertCoin);
+            isAllUserCoinReturned(insertCoin);
         });
-    }
-
-    checkInsertCoin(needToCoin) {
-        if (this.UserCoin.InsertCoin - needToCoin < 0) {
-            return alert(
-                `돈이 부족합니다. ${Math.abs(
-                    this.UserCoin.InsertCoin - needToCoin
-                )}원 더 투입해주세요`
-            );
-        }
-        return true;
-    }
-
-    giveAllReturnCoin(change) {
-        if (change !== 0) {
-            return alert(
-                `자판기에 동전이 없습니다. 010-1234-5678로 전화주시면 해결해드리겠습니다.`
-            );
-        }
-        return true;
     }
 }

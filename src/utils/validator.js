@@ -36,3 +36,19 @@ export const isValidCoinInput = coinToInput => {
     }
     return true;
 };
+
+export const checkUserCoin = (needToCoin, insertToUserCoin) => {
+    if (insertToUserCoin - needToCoin < 0) {
+        return alert(
+            `돈이 부족합니다. ${Math.abs(insertToUserCoin - needToCoin)}원 더 투입해주세요`
+        );
+    }
+    return true;
+};
+
+export const isAllUserCoinReturned = change => {
+    if (change !== 0) {
+        return alert(`자판기에 동전이 없습니다. 010-1234-5678로 전화주시면 해결해드리겠습니다.`);
+    }
+    return true;
+};
