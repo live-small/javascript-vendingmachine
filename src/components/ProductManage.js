@@ -25,5 +25,12 @@ export default class ProductManage extends Component {
                 this.setState(this.Product.key, updateProductList);
             }
         });
+        $("#product-manage-list").addEventListener("click", event => {
+            if (confirm(`정말 삭제하시겠습니까?`) === true) {
+                const { productManageKey } = event.target.closest(".product-manage-item").dataset;
+                const updateProductList = this.Product.deleteTargetProduct(productManageKey);
+                this.setState(this.Product.key, updateProductList);
+            }
+        });
     }
 }

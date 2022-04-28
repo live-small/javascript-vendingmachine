@@ -29,4 +29,10 @@ export default class Product {
         }
         return productList;
     }
+
+    deleteTargetProduct(productKey) {
+        const currenProductList = this.list;
+        currenProductList.splice(productKey, 1);
+        return currenProductList;
+    }
 }

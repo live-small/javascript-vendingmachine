@@ -8,22 +8,26 @@ const ProductManageView = products => `
 	</div>
 	<div class="product-current-status">
 		<h3>상품현황</h3>
-		<table>
+		<table id="product-manage-list">
 			<thead>
 				<tr>
 					<th>상품명</th>
 					<th>가격</th>
 					<th>수량</th>
+					<th>삭제</th>
 				</tr>
 			</thead>
 			${products
                 .map(
-                    ({ name, price, quantity }) =>
+                    ({ name, price, quantity }, key) =>
                         `
-					<tr class="product-manage-item">
+					<tr class="product-manage-item" data-product-manage-key="${key}">
 						<td class="product-manage-name">${name}</td>
 						<td class="product-manage-price">${price}</td>
 						<td class="product-manage-quantity">${quantity}</td>
+						<td>
+							<button id="product-delete-button" type="button">삭제하기</button>
+						</td>
 					</tr>
 				 `
                 )
