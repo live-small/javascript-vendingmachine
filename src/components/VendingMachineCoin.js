@@ -67,7 +67,7 @@ export default class VendingMachineCoin {
     getCoinKindsToUse(coinToInput, coinKinds) {
         const coinKindsToUse = [...coinKinds];
         for (const unit of coinKinds) {
-            if (unit < coinToInput) return coinKindsToUse;
+            if (unit <= coinToInput) return coinKindsToUse;
             coinKindsToUse.shift();
         }
     }
