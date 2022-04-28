@@ -3,7 +3,7 @@ import { initLocalStorage, readFromLocalStorage } from "../utils/localStroage.js
 export default class VendingMachineCoin {
     constructor() {
         this.key = "vendingMachineCoin";
-        this.coinTemplate = { 500: 0, 100: 0, 50: 0, 10: 0 };
+        this.coinTemplate = { 10: 0, 50: 0, 100: 0, 500: 0 };
         initLocalStorage(this.key, {
             totalCoin: 0,
             numberOfCoin: { ...this.coinTemplate },
@@ -49,15 +49,27 @@ export default class VendingMachineCoin {
 
     generateCoinRandomly(coinToInput) {
         const coinTemplate = { ...this.coinTemplate };
+        const coinKinds = Object.keys(coinTemplate)
+            .map(unit => Number(unit))
+            .reverse();
+        const coinKindsToUse = this.getCoinKindsToUse(coinToInput, coinKinds);
+
         while (coinToInput > 0) {
-            const coinKinds = Object.keys(coinTemplate).map(unit => Number(unit));
-            const randomCoin = MissionUtils.Random.pickNumberInList(coinKinds);
+            const randomCoin = MissionUtils.Random.pickNumberInList(coinKindsToUse);
             if (coinToInput - randomCoin >= 0) {
                 coinToInput -= randomCoin;
                 coinTemplate[randomCoin] += 1;
             }
         }
         return coinTemplate;
+    }
+
+    getCoinKindsToUse(coinToInput, coinKinds) {
+        const coinKindsToUse = [...coinKinds];
+        for (const unit of coinKinds) {
+            if (unit < coinToInput) return coinKindsToUse;
+            coinKindsToUse.shift();
+        }
     }
 
     accumulateNumberOfCoin(newCoins) {
