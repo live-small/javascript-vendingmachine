@@ -1,7 +1,7 @@
 const CoinChargeView = ({ totalCoin, numberOfCoin }) => `
 	<div class="coin-charge-form">
 		<h2>자판기 동전 충전하기</h2>
-		<input type="number" id="vending-machine-charge-input" />
+		<input type="number" id="vending-machine-charge-input" placeholder="충전금액"/>
 		<button type="button" id="vending-machine-charge-button">충전하기</button>
 		<h3>보유 금액: 
 			<span id="vending-machine-charge-amount">${totalCoin}</span>	

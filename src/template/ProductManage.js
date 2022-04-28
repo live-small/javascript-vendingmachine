@@ -1,9 +1,9 @@
 const ProductManageView = products => `
 	<div class="product-add-form">
 		<h3>상품 추가하기</h3>
-		<input type="text" id="product-name-input" />
-		<input type="number" id="product-price-input" />
-		<input type="number" id="product-quantity-input" />
+		<input type="text" id="product-name-input" placeholder="상품명"/>
+		<input type="number" id="product-price-input" placeholder="가격"/>
+		<input type="number" id="product-quantity-input" placeholder="수량"/>
 		<button id="product-add-button">추가하기</button>
 	</div>
 	<div class="product-current-status">
