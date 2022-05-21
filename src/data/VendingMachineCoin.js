@@ -75,9 +75,7 @@ export default class VendingMachineCoin {
     accumulateNumberOfCoin(newCoins) {
         const coinTemplate = { ...this.coinTemplate };
         for (const unit in coinTemplate) {
-            const count = [this.data.numberOfCoin, newCoins].reduce(
-                (prev, curr) => curr[unit] + prev[unit]
-            );
+            const count = this.data.numberOfCoin[unit] + newCoins[unit];
             coinTemplate[unit] = count;
         }
         return coinTemplate;
