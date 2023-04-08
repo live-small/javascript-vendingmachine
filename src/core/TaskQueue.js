@@ -1,4 +1,4 @@
-import { setLocalStroage } from "../utils/localStroage.js";
+import { setLocalStorage } from "../utils/localStorage.js";
 
 export default class TaskQueue {
     constructor() {
@@ -15,7 +15,7 @@ export default class TaskQueue {
         if (!this.tasks.length) return;
 
         this.tasks.forEach(({ key, value }) => {
-            setLocalStroage(key, value);
+            setLocalStorage(key, value);
         });
         this.tasks = [];
         targetThis.render();

@@ -1,4 +1,4 @@
-import { initLocalStorage, readFromLocalStorage } from "../utils/localStroage.js";
+import { initLocalStorage, readFromLocalStorage } from "../utils/localStorage.js";
 
 export default class Product {
     constructor() {
