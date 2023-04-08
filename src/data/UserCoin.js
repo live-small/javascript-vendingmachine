@@ -16,4 +16,12 @@ export default class UserCoin {
     get InsertCoin() {
         return readFromLocalStorage(this.insertCoinKey);
     }
+
+    insert(coin) {
+        return coin + this.InsertCoin;
+    }
+
+    buy(productPrice) {
+        return this.InsertCoin - productPrice;
+    }
 }

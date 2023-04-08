@@ -14,8 +14,7 @@ export default class VendingMachineCoin {
         return readFromLocalStorage(this.key);
     }
 
-    get TotalCoin() {
-        const { numberOfCoin } = this.data;
+    getTotalCoin(numberOfCoin) {
         let totalCoin = 0;
         for (const [unit, amount] of Object.entries(numberOfCoin)) {
             totalCoin += unit * amount;
@@ -29,6 +28,7 @@ export default class VendingMachineCoin {
         return {
             ...this.data,
             numberOfCoin,
+            totalCoin: this.getTotalCoin(numberOfCoin),
         };
     }
 
