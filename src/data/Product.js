@@ -31,8 +31,8 @@ export default class Product {
     }
 
     deleteTargetProduct(productKey) {
-        const currenProductList = this.list;
-        currenProductList.splice(productKey, 1);
-        return currenProductList;
+        const currentProductList = this.list;
+        currentProductList.splice(productKey, 1);
+        return currentProductList;
     }
 }
