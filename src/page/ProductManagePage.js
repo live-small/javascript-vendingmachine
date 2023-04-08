@@ -23,6 +23,7 @@ export default class ProductManage extends Component {
             if (isValidProduct(newProduct)) {
                 const updateProductList = this.Product.add(newProduct);
                 this.setState(this.Product.key, updateProductList);
+                this.commit(this);
             }
         });
         $("#product-manage-list").addEventListener("click", event => {
@@ -30,6 +31,7 @@ export default class ProductManage extends Component {
                 const { productManageKey } = event.target.closest(".product-manage-item").dataset;
                 const updateProductList = this.Product.deleteTargetProduct(productManageKey);
                 this.setState(this.Product.key, updateProductList);
+                this.commit(this);
             }
         });
     }

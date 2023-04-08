@@ -1,6 +1,5 @@
 import Component from "../core/Component.js";
 import ProductPurchaseView from "../template/ProductPurchase.js";
-import { setLocalStroage } from "../utils/localStroage.js";
 import { $ } from "../utils/utils.js";
 import { checkUserCoin, isAllUserCoinReturned, isValidCoinInput } from "../utils/validator.js";
 
@@ -25,10 +24,8 @@ export default class ProductPurchase extends Component {
         $("#charge-button").addEventListener("click", () => {
             const inputCoin = $("#charge-input").value;
             if (isValidCoinInput(inputCoin)) {
-                this.setState(
-                    this.UserCoin.insertCoinKey,
-                    Number(inputCoin) + this.UserCoin.InsertCoin
-                );
+                this.setState(this.UserCoin.insertCoinKey, this.UserCoin.insert(Number(inputCoin)));
+                this.commit(this);
             }
         });
         $("#product-list").addEventListener("click", event => {
@@ -36,29 +33,25 @@ export default class ProductPurchase extends Component {
             const [, $price, $quantity] = $targetProduct.children;
             const { productPrice } = $price.dataset;
             if (checkUserCoin(productPrice, this.UserCoin.InsertCoin)) {
-                setLocalStroage(
-                    this.UserCoin.insertCoinKey,
-                    this.UserCoin.InsertCoin - productPrice
-                );
                 const updateProductList = this.Product.sell($targetProduct, $quantity);
                 this.setState(this.Product.key, updateProductList);
+                this.setState(this.UserCoin.insertCoinKey, this.UserCoin.buy(productPrice));
+                this.commit(this);
             }
         });
         $("#coin-return-button").addEventListener("click", () => {
             const coinToReturn = this.UserCoin.InsertCoin;
             const [returnNumberOfCoin, numberOfCoin, insertCoin] =
                 this.VendingMachineCoin.return(coinToReturn);
-            setLocalStroage(this.VendingMachineCoin.key, {
-                ...this.VendingMachineCoin.data,
+            this.setState(this.VendingMachineCoin.key, {
                 numberOfCoin,
+                totalCoin: this.VendingMachineCoin.getTotalCoin(numberOfCoin),
             });
-            setLocalStroage(this.VendingMachineCoin.key, {
-                ...this.VendingMachineCoin.data,
-                totalCoin: this.VendingMachineCoin.TotalCoin,
-            });
-            setLocalStroage(this.UserCoin.returnCoinKey, returnNumberOfCoin);
+            this.setState(this.UserCoin.returnCoinKey, returnNumberOfCoin);
             this.setState(this.UserCoin.insertCoinKey, insertCoin);
+
             isAllUserCoinReturned(insertCoin);
+            this.commit(this);
         });
     }
 }
